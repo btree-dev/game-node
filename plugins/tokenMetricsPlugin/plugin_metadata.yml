@@ -49,6 +49,7 @@ capabilities:
   functions_count: 21
   endpoints_covered:
     - "Token Discovery & Pricing"
+    - "Moonshot & Grade Analysis"
     - "Trading Signals & Analysis"
     - "Market Metrics & Analytics"
     - "AI Reports & Insights"
@@ -70,15 +71,25 @@ capabilities:
       category: "core"
       endpoint: "/price"
     
-    # Trading & Investment Analysis (5)
-    - name: "getTraderGrades"
-      description: "AI-powered short-term trader performance grades"
-      category: "trading"
-      endpoint: "/trader-grades"
-    - name: "getInvestorGrades"
-      description: "Long-term investor performance analysis"
-      category: "trading"
-      endpoint: "/investor-grades"
+    # Moonshot & Grade Analysis (4)
+    - name: "getMoonshotTokens"
+      description: "AI-curated high-potential token picks with breakout potential"
+      category: "moonshot"
+      endpoint: "/moonshot-tokens"
+    - name: "getTechnologyGrade"
+      description: "Technology quality and development scores analysis"
+      category: "grades"
+      endpoint: "/technology-grade"
+    - name: "getTmGrade"
+      description: "Comprehensive TM grade with signals and momentum"
+      category: "grades"
+      endpoint: "/tm-grade"
+    - name: "getFundamentalGrade"
+      description: "Fundamental strength and tokenomics analysis"
+      category: "grades"
+      endpoint: "/fundamental-grade"
+    
+    # Trading & Investment Analysis (3)
     - name: "getTradingSignals"
       description: "AI-generated buy/sell/hold recommendations"
       category: "trading"
@@ -154,7 +165,9 @@ capabilities:
 
   function_categories:
     core: 3
-    trading: 5
+    moonshot: 1
+    grades: 3
+    trading: 3
     analytics: 3
     ai: 4
     technical: 3

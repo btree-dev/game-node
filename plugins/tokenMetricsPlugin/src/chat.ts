@@ -140,7 +140,39 @@ class TokenMetricsChatInterface {
         console.log(`${colors.yellow}🔍 Getting supported tokens list...${colors.reset}`);
         await this.getTokensList();
         
-      // 2. TRADER GRADES - /trader-grades endpoint (more specific matching - moved up)
+      // 2. MOONSHOT TOKENS - /moonshot-tokens endpoint (new API)
+      } else if ((lowerPrompt.includes('moonshot') || lowerPrompt.includes('100x') || lowerPrompt.includes('breakout')) ||
+                 (lowerPrompt.includes('high potential') && lowerPrompt.includes('token')) ||
+                 (lowerPrompt.includes('next') && (lowerPrompt.includes('gem') || lowerPrompt.includes('coin')))) {
+        
+        console.log(`${colors.yellow}🔍 Getting moonshot tokens...${colors.reset}`);
+        await this.getMoonshotTokens(prompt);
+        
+      // 3. TM GRADE - /tm-grade endpoint (new API)
+      } else if ((lowerPrompt.includes('tm grade') || lowerPrompt.includes('tm-grade')) ||
+                 (lowerPrompt.includes('comprehensive') && lowerPrompt.includes('grade')) ||
+                 (lowerPrompt.includes('momentum') && lowerPrompt.includes('grade'))) {
+        
+        console.log(`${colors.yellow}🔍 Getting TM grade analysis...${colors.reset}`);
+        await this.getTmGrade(prompt);
+        
+      // 4. FUNDAMENTAL GRADE - /fundamental-grade endpoint (new API)
+      } else if ((lowerPrompt.includes('fundamental') && lowerPrompt.includes('grade')) ||
+                 (lowerPrompt.includes('tokenomics') && lowerPrompt.includes('analysis')) ||
+                 (lowerPrompt.includes('fundamental') && lowerPrompt.includes('strength'))) {
+        
+        console.log(`${colors.yellow}🔍 Getting fundamental grade analysis...${colors.reset}`);
+        await this.getFundamentalGrade(prompt);
+        
+      // 5. TECHNOLOGY GRADE - /technology-grade endpoint (new API)
+      } else if ((lowerPrompt.includes('technology') && lowerPrompt.includes('grade')) ||
+                 (lowerPrompt.includes('tech') && lowerPrompt.includes('score')) ||
+                 (lowerPrompt.includes('development') && lowerPrompt.includes('quality'))) {
+        
+        console.log(`${colors.yellow}🔍 Getting technology grade analysis...${colors.reset}`);
+        await this.getTechnologyGrade(prompt);
+        
+      // 6. TRADER GRADES - /trader-grades endpoint (more specific matching - moved up)
       } else if ((lowerPrompt.includes('trader') && (lowerPrompt.includes('grade') || lowerPrompt.includes('score') || lowerPrompt.includes('rating'))) ||
                  (lowerPrompt.includes('trading') && lowerPrompt.includes('score'))) {
         
@@ -2926,6 +2958,113 @@ class TokenMetricsChatInterface {
       return (number / 1e3).toFixed(2) + 'K';
     } else {
       return number.toFixed(2);
+    }
+  }
+
+  // New API Functions for Moonshot & Grade Analysis
+  private async getMoonshotTokens(prompt: string): Promise<void> {
+    try {
+      const result = await this.retryWithBackoff(async () => {
+        return await this.plugin.getMoonshotTokens.executable(
+          { type: "active", limit: "10" },
+          (msg: string) => console.log(`${colors.dim}  📝 ${msg}${colors.reset}`)
+        );
+      });
+      
+      if (result.status === 'done') {
+        this.formatResponse("🚀 Moonshot tokens retrieved successfully! Check the detailed data above for AI-curated high-potential token picks.", 'data');
+      } else {
+        this.formatResponse(result.feedback, 'error');
+      }
+    } catch (error) {
+      this.formatResponse(`Moonshot tokens query failed: ${error}`, 'error');
+    }
+  }
+
+  private async getTmGrade(prompt: string): Promise<void> {
+    try {
+      // Extract token symbol from prompt
+      const lowerPrompt = prompt.toLowerCase();
+      let symbol = 'BTC'; // Default to Bitcoin
+      
+      if (lowerPrompt.includes('ethereum') || lowerPrompt.includes('eth')) {
+        symbol = 'ETH';
+      } else if (lowerPrompt.includes('bitcoin') || lowerPrompt.includes('btc')) {
+        symbol = 'BTC';
+      }
+      
+      const result = await this.retryWithBackoff(async () => {
+        return await this.plugin.getTmGrade.executable(
+          { symbol: symbol },
+          (msg: string) => console.log(`${colors.dim}  📝 ${msg}${colors.reset}`)
+        );
+      });
+      
+      if (result.status === 'done') {
+        this.formatResponse(`📊 TM Grade analysis for ${symbol} retrieved successfully! Check the detailed data above for comprehensive grade with signals and momentum.`, 'data');
+      } else {
+        this.formatResponse(result.feedback, 'error');
+      }
+    } catch (error) {
+      this.formatResponse(`TM Grade query failed: ${error}`, 'error');
+    }
+  }
+
+  private async getFundamentalGrade(prompt: string): Promise<void> {
+    try {
+      // Extract token symbol from prompt
+      const lowerPrompt = prompt.toLowerCase();
+      let symbol = 'BTC'; // Default to Bitcoin
+      
+      if (lowerPrompt.includes('ethereum') || lowerPrompt.includes('eth')) {
+        symbol = 'ETH';
+      } else if (lowerPrompt.includes('bitcoin') || lowerPrompt.includes('btc')) {
+        symbol = 'BTC';
+      }
+      
+      const result = await this.retryWithBackoff(async () => {
+        return await this.plugin.getFundamentalGrade.executable(
+          { symbol: symbol },
+          (msg: string) => console.log(`${colors.dim}  📝 ${msg}${colors.reset}`)
+        );
+      });
+      
+      if (result.status === 'done') {
+        this.formatResponse(`💎 Fundamental Grade analysis for ${symbol} retrieved successfully! Check the detailed data above for fundamental strength and tokenomics analysis.`, 'data');
+      } else {
+        this.formatResponse(result.feedback, 'error');
+      }
+    } catch (error) {
+      this.formatResponse(`Fundamental Grade query failed: ${error}`, 'error');
+    }
+  }
+
+  private async getTechnologyGrade(prompt: string): Promise<void> {
+    try {
+      // Extract token symbol from prompt
+      const lowerPrompt = prompt.toLowerCase();
+      let symbol = 'BTC'; // Default to Bitcoin
+      
+      if (lowerPrompt.includes('ethereum') || lowerPrompt.includes('eth')) {
+        symbol = 'ETH';
+      } else if (lowerPrompt.includes('bitcoin') || lowerPrompt.includes('btc')) {
+        symbol = 'BTC';
+      }
+      
+      const result = await this.retryWithBackoff(async () => {
+        return await this.plugin.getTechnologyGrade.executable(
+          { symbol: symbol },
+          (msg: string) => console.log(`${colors.dim}  📝 ${msg}${colors.reset}`)
+        );
+      });
+      
+      if (result.status === 'done') {
+        this.formatResponse(`🔧 Technology Grade analysis for ${symbol} retrieved successfully! Check the detailed data above for technology quality and development scores.`, 'data');
+      } else {
+        this.formatResponse(result.feedback, 'error');
+      }
+    } catch (error) {
+      this.formatResponse(`Technology Grade query failed: ${error}`, 'error');
     }
   }
 

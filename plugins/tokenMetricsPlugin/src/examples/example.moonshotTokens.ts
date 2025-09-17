@@ -9,15 +9,15 @@ const tokenMetricsPlugin = new TokenMetricsPlugin({
   },
 });
 
-// Create an agent to get top market cap cryptocurrencies
+// Create an agent to get moonshot tokens for high-potential trading opportunities
 const agent = new GameAgent(process.env.GAME_API_KEY ?? "", {
-  name: "TokenMetrics Top Market Cap Agent",
-  goal: "Get the list of top cryptocurrencies by market capitalization to identify the most valuable and established digital assets.",
+  name: "TokenMetrics Moonshot Analyst",
+  goal: "Get AI-curated token picks (Moonshots) with high breakout potential based on grades, sentiment, volume, and on-chain data to help users trade smarter and faster.",
   description:
-    "You are an AI agent specialized in identifying leading cryptocurrencies by market capitalization using TokenMetrics data. You provide information about the most valuable and established digital assets in the crypto market.",
+    "You are an AI agent specialized in identifying high-potential cryptocurrency moonshots using TokenMetrics AI analysis. You help users discover tokens with strong breakout potential based on comprehensive analysis of grades, sentiment, volume, and on-chain data.",
   workers: [
     tokenMetricsPlugin.getWorker({
-      functions: [tokenMetricsPlugin.getTopMarketCapTokens],
+      functions: [tokenMetricsPlugin.getMoonshotTokens],
     }),
   ],
 });

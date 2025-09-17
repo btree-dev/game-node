@@ -1,8 +1,60 @@
-# 🚀 Token Metrics Plugin for Virtuals Game
+# 🚀 Token Metrics Plugin for Virtuals Protocol
 
-> 🎯 **Supercharge your G.A.M.E agents with AI-powered cryptocurrency analysis!**
+> 🎯 **Supercharge your Virtuals agents with AI-powered cryptocurrency analysis!**
 
-The Token Metrics plugin seamlessly empowers G.A.M.E agents with comprehensive cryptocurrency analysis capabilities using the Token Metrics API, enabling the retrieval of AI-powered market data, trading signals, and investment insights without introducing any additional complexity.
+The Token Metrics plugin seamlessly empowers Virtuals Protocol agents with comprehensive cryptocurrency analysis capabilities using the Token Metrics API, enabling the retrieval of AI-powered market data, trading signals, and investment insights for intelligent trading and investment decisions.
+
+---
+
+## 🚀 Quick Start for Developers
+
+### 1. Installation
+```bash
+npm install @tokenmetrics/tokenmetrics-virtuals-plugin
+```
+
+### 2. Environment Setup
+Create a `.env` file with your API keys:
+```env
+# Virtuals Protocol API Key (required)
+GAME_API_KEY=your-virtuals-api-key-here
+
+# TokenMetrics API Key (required) 
+TOKENMETRICS_API_KEY=your-tokenmetrics-api-key-here
+```
+
+### 3. Basic Agent Integration
+```typescript
+import { GameAgent } from "@virtuals-protocol/game";
+import TokenMetricsPlugin from "@tokenmetrics/tokenmetrics-virtuals-plugin";
+
+// Initialize the plugin
+const tokenMetricsPlugin = new TokenMetricsPlugin({
+  apiClientConfig: {
+    apiKey: process.env.TOKENMETRICS_API_KEY!,
+  },
+});
+
+// Create your Virtuals agent
+const agent = new GameAgent(process.env.GAME_API_KEY!, {
+  name: "Crypto Analysis Agent",
+  goal: "Provide intelligent cryptocurrency analysis using TokenMetrics data",
+  description: "AI agent specialized in crypto market analysis and trading insights",
+  workers: [tokenMetricsPlugin.getWorker()], // All 21 functions available
+});
+
+// Start the agent
+await agent.init();
+await agent.step({ verbose: true });
+```
+
+### 4. Natural Language Interaction
+Your agent can now understand and respond to queries like:
+- "What are the next moonshot tokens?"
+- "Show me the TM grade for Bitcoin"
+- "Get fundamental analysis for Ethereum"
+- "What's the current market sentiment?"
+- "Find me trading signals for top cryptocurrencies"
 
 ---
 
@@ -19,6 +71,66 @@ The Token Metrics plugin seamlessly empowers G.A.M.E agents with comprehensive c
 
 ---
 
+## 📚 Examples
+
+### 🌙 Moonshot Tokens Analysis
+```typescript
+// Create a moonshot discovery agent
+const moonshotAgent = new GameAgent(process.env.GAME_API_KEY!, {
+  name: "Moonshot Discovery Agent",
+  goal: "Identify high-potential cryptocurrency moonshots",
+  description: "AI agent specialized in finding next 100x tokens",
+  workers: [tokenMetricsPlugin.getWorker({
+    functions: [tokenMetricsPlugin.getMoonshotTokens]
+  })],
+});
+
+// Natural language query
+await moonshotAgent.step({
+  input: "What are the next moonshot tokens with high breakout potential?"
+});
+```
+
+### 📊 Comprehensive Market Analysis
+```typescript
+// Create a full market analysis agent
+const marketAgent = new GameAgent(process.env.GAME_API_KEY!, {
+  name: "Market Analysis Agent", 
+  goal: "Provide comprehensive crypto market analysis",
+  description: "AI agent for complete market intelligence",
+  workers: [tokenMetricsPlugin.getWorker()], // All functions
+});
+
+// Multi-function analysis
+await marketAgent.step({
+  input: "Analyze Bitcoin's TM grade, fundamental strength, and current market sentiment"
+});
+```
+
+### 🎯 Trading Signal Agent
+```typescript
+// Create a trading signals agent
+const tradingAgent = new GameAgent(process.env.GAME_API_KEY!, {
+  name: "Trading Signals Agent",
+  goal: "Provide AI-powered trading recommendations", 
+  description: "AI agent for trading signals and market timing",
+  workers: [tokenMetricsPlugin.getWorker({
+    functions: [
+      tokenMetricsPlugin.getTradingSignals,
+      tokenMetricsPlugin.getHourlyTradingSignals,
+      tokenMetricsPlugin.getMarketMetrics
+    ]
+  })],
+});
+
+// Get trading insights
+await tradingAgent.step({
+  input: "Show me the latest trading signals for top cryptocurrencies"
+});
+```
+
+---
+
 ## 🔧 Available Functions
 
 ### 📋 Core Data Functions
@@ -28,11 +140,17 @@ The Token Metrics plugin seamlessly empowers G.A.M.E agents with comprehensive c
 | `getTopMarketCapTokens` | Retrieve top cryptos by market cap | 👑 Market Leaders |
 | `getPriceData` | Get current market prices | 💰 Price Tracking |
 
+### 🚀 Moonshot & Grade Analysis
+| Function | Description | 🎯 Purpose |
+|----------|-------------|-----------|
+| `getMoonshotTokens` | AI-curated high-potential token picks | 🌙 Moonshot Discovery |
+| `getTechnologyGrade` | Technology quality and development scores | 🔧 Tech Analysis |
+| `getTmGrade` | Comprehensive TM grade with signals & momentum | 📊 Grade Analysis |
+| `getFundamentalGrade` | Fundamental strength and tokenomics analysis | 💎 Fundamental Analysis |
+
 ### 📊 Trading & Investment Analysis
 | Function | Description | 🎯 Purpose |
 |----------|-------------|-----------|
-| `getTraderGrades` | AI-powered trader performance grades | 🏆 Performance Analysis |
-| `getInvestorGrades` | Investor performance analysis | 🎯 Investment Insights |
 | `getTradingSignals` | Buy/sell/hold recommendations | 📡 Trading Signals |
 | `getHourlyTradingSignals` | Hourly AI trading signals with confidence | ⏰ Real-time Signals |
 | `getMarketMetrics` | Comprehensive market analysis | 📊 Market Overview |

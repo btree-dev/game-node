@@ -9,15 +9,15 @@ const tokenMetricsPlugin = new TokenMetricsPlugin({
   },
 });
 
-// Create an agent to get trader grades for short-term analysis
+// Create an agent to get TM Grade insights for tokens
 const agent = new GameAgent(process.env.GAME_API_KEY ?? "", {
-  name: "TokenMetrics Trader Grade Analyst",
-  goal: "Get the short-term trader grades for cryptocurrencies to assess trading opportunities and momentum.",
+  name: "TokenMetrics TM Grade Analyst",
+  goal: "Get the latest TM Grade for tokens, including trader grade change, quant grade, signals, momentum, and 24-hour percentage changes for both TM Grade and Trader Grade.",
   description:
-    "You are an AI agent specialized in analyzing short-term trading opportunities using TokenMetrics AI-powered trader grades. You provide insights into technical analysis, momentum indicators, and on-chain metrics for making informed trading decisions.",
+    "You are an AI agent specialized in analyzing TokenMetrics (TM) Grade insights for cryptocurrencies. You provide comprehensive analysis of TM grades, trader grade changes, quantitative metrics, trading signals, and momentum indicators to help users make informed trading and investment decisions.",
   workers: [
     tokenMetricsPlugin.getWorker({
-      functions: [tokenMetricsPlugin.getTraderGrades],
+      functions: [tokenMetricsPlugin.getTmGrade],
     }),
   ],
 });

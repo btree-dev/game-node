@@ -51,8 +51,10 @@ import {
           this.getTokens,
           this.getTopMarketCapTokens,
           this.getPriceData,
-          this.getTraderGrades,
-          this.getInvestorGrades,
+          this.getMoonshotTokens,
+          this.getTechnologyGrade,
+          this.getTmGrade,
+          this.getFundamentalGrade,
           this.getTradingSignals,
           this.getHourlyTradingSignals,
           this.getMarketMetrics,
@@ -200,87 +202,15 @@ import {
       });
     }
   
-    get getTraderGrades() {
+    get getMoonshotTokens() {
       return new GameFunction({
-        name: "get_trader_grades",
+        name: "get_moonshot_tokens",
         description:
-          "Get the short term AI grades including 24h percent change for TM Trader Grade. These grades help identify short-term trading opportunities.",
+          "Get AI-curated token picks (Moonshots) with high breakout potential based on grades, sentiment, volume, and on-chain data to help users trade smarter and faster.",
         args: [
           {
-            name: "token_id",
-            description: "Comma separated Token IDs",
-            type: "string",
-          },
-          {
-            name: "startDate",
-            description: "Start date in YYYY-MM-DD format (e.g., 2023-10-01)",
-            type: "string",
-          },
-          {
-            name: "endDate", 
-            description: "End date in YYYY-MM-DD format (e.g., 2023-10-10)",
-            type: "string",
-          },
-          {
-            name: "symbol",
-            description: "Comma separated token symbols (e.g., BTC,ETH)",
-            type: "string",
-          },
-          {
-            name: "limit",
-            description: "Limit the number of items in response (default: 50)",
-            type: "number",
-            default: 50,
-          },
-          {
-            name: "page",
-            description: "Page number for pagination (default: 1)", 
-            type: "number",
-            default: 1,
-          },
-        ] as const,
-        executable: async (args: any, logger: any) => {
-          try {
-            logger(`Querying trader grades with parameters: ${JSON.stringify(args)}`);
-  
-            return await tokenMetricsApiCall(
-              this.apiKey,
-              this.baseApiUrl,
-              "/trader-grades",
-              args,
-              logger
-            );
-          } catch (e: any) {
-            return exceptionHandler(e, logger);
-          }
-        },
-      });
-    }
-  
-    get getInvestorGrades() {
-      return new GameFunction({
-        name: "get_investor_grades",
-        description:
-          "Get the long term grades including Technology and Fundamental metrics. These provide comprehensive long-term investment analysis.",
-        args: [
-          {
-            name: "token_id",
-            description: "Comma separated Token IDs",
-            type: "string",
-          },
-          {
-            name: "startDate",
-            description: "Start date in YYYY-MM-DD format",
-            type: "string",
-          },
-          {
-            name: "endDate",
-            description: "End date in YYYY-MM-DD format", 
-            type: "string",
-          },
-          {
-            name: "symbol",
-            description: "Comma separated token symbols",
+            name: "type",
+            description: "Accepts 'active' or 'past' to fetch respective moonshots. Defaults to 'active' if not provided.",
             type: "string",
           },
           {
@@ -298,12 +228,153 @@ import {
         ] as const,
         executable: async (args: any, logger: any) => {
           try {
-            logger(`Querying investor grades with parameters: ${JSON.stringify(args)}`);
-  
+            logger(`Querying moonshot tokens with parameters: ${JSON.stringify(args)}`);
+
             return await tokenMetricsApiCall(
               this.apiKey,
               this.baseApiUrl,
-              "/investor-grades", 
+              "/moonshot-tokens",
+              args,
+              logger
+            );
+          } catch (e: any) {
+            return exceptionHandler(e, logger);
+          }
+        },
+      });
+    }
+
+    get getTechnologyGrade() {
+      return new GameFunction({
+        name: "get_technology_grade",
+        description:
+          "Get Technology Grade insights for a token, including activity score, security score, repository score, collaboration score, and DeFi scanner score.",
+        args: [
+          {
+            name: "token_id",
+            description: "Token ID (e.g., 3375)",
+            type: "string",
+          },
+          {
+            name: "token_name",
+            description: "Crypto Asset Names (e.g., Bitcoin, Ethereum)",
+            type: "string",
+          },
+          {
+            name: "symbol",
+            description: "Token symbols (e.g., BTC, ETH)",
+            type: "string",
+          },
+        ] as const,
+        executable: async (args: any, logger: any) => {
+          try {
+            if (!args.token_id && !args.token_name && !args.symbol) {
+              return new ExecutableGameFunctionResponse(
+                ExecutableGameFunctionStatus.Failed,
+                "At least one of token_id, token_name, or symbol is required for technology grade query"
+              );
+            }
+
+            logger(`Querying technology grade with parameters: ${JSON.stringify(args)}`);
+
+            return await tokenMetricsApiCall(
+              this.apiKey,
+              this.baseApiUrl,
+              "/technology-grade",
+              args,
+              logger
+            );
+          } catch (e: any) {
+            return exceptionHandler(e, logger);
+          }
+        },
+      });
+    }
+
+    get getTmGrade() {
+      return new GameFunction({
+        name: "get_tm_grade",
+        description:
+          "Get the latest TM Grade for a token, including trader grade change, quant grade, signals, momentum, and 24-hour percentage changes for both TM Grade and Trader Grade.",
+        args: [
+          {
+            name: "token_id",
+            description: "Token ID (e.g., 3375)",
+            type: "string",
+          },
+          {
+            name: "token_name",
+            description: "Crypto Asset Names (e.g., Bitcoin, Ethereum)",
+            type: "string",
+          },
+          {
+            name: "symbol",
+            description: "Token symbols (e.g., BTC, ETH)",
+            type: "string",
+          },
+        ] as const,
+        executable: async (args: any, logger: any) => {
+          try {
+            if (!args.token_id && !args.token_name && !args.symbol) {
+              return new ExecutableGameFunctionResponse(
+                ExecutableGameFunctionStatus.Failed,
+                "At least one of token_id, token_name, or symbol is required for TM grade query"
+              );
+            }
+
+            logger(`Querying TM grade with parameters: ${JSON.stringify(args)}`);
+
+            return await tokenMetricsApiCall(
+              this.apiKey,
+              this.baseApiUrl,
+              "/tm-grade",
+              args,
+              logger
+            );
+          } catch (e: any) {
+            return exceptionHandler(e, logger);
+          }
+        },
+      });
+    }
+
+    get getFundamentalGrade() {
+      return new GameFunction({
+        name: "get_fundamental_grade",
+        description:
+          "Get the latest Fundamental Grade insights for a token, including grade class, community score, exchange score, VC score, tokenomics score, and DeFi scanner score.",
+        args: [
+          {
+            name: "token_id",
+            description: "Token ID (e.g., 3375)",
+            type: "string",
+          },
+          {
+            name: "token_name",
+            description: "Crypto Asset Names (e.g., Bitcoin, Ethereum)",
+            type: "string",
+          },
+          {
+            name: "symbol",
+            description: "Token symbols (e.g., BTC, ETH)",
+            type: "string",
+          },
+        ] as const,
+        executable: async (args: any, logger: any) => {
+          try {
+            if (!args.token_id && !args.token_name && !args.symbol) {
+              return new ExecutableGameFunctionResponse(
+                ExecutableGameFunctionStatus.Failed,
+                "At least one of token_id, token_name, or symbol is required for fundamental grade query"
+              );
+            }
+
+            logger(`Querying fundamental grade with parameters: ${JSON.stringify(args)}`);
+
+            return await tokenMetricsApiCall(
+              this.apiKey,
+              this.baseApiUrl,
+              "/fundamental-grade",
               args,
               logger
             );

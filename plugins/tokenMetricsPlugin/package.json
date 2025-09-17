@@ -27,8 +27,10 @@
     "demo:indices": "ts-node tests/test-scenarios/indices-endpoints-demo.ts",
     
     "example:tokens": "ts-node src/examples/example.tokens.ts",
-    "example:trader-grades": "ts-node src/examples/example.traderGrades.ts",
-    "example:investor-grades": "ts-node src/examples/example.investorGrades.ts",
+    "example:moonshot-tokens": "ts-node src/examples/example.moonshotTokens.ts",
+    "example:technology-grade": "ts-node src/examples/example.technologyGrade.ts",
+    "example:tm-grade": "ts-node src/examples/example.tmGrade.ts",
+    "example:fundamental-grade": "ts-node src/examples/example.fundamentalGrade.ts",
     "example:trading-signals": "npx tsx src/examples/example.tradingSignals.ts",
     "example:hourly-trading-signals": "ts-node src/examples/example.hourlyTradingSignals.ts",
     "example:market-metrics": "npx tsx src/examples/example.marketMetrics.ts",

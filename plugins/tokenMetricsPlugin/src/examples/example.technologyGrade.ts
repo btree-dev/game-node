@@ -9,15 +9,15 @@ const tokenMetricsPlugin = new TokenMetricsPlugin({
   },
 });
 
-// Create an agent to get investor grades for long-term analysis
+// Create an agent to get technology grade insights for tokens
 const agent = new GameAgent(process.env.GAME_API_KEY ?? "", {
-  name: "TokenMetrics Investor Grade Analyst", 
-  goal: "Get the long-term investor grades including Technology and Fundamental metrics for comprehensive investment analysis.",
+  name: "TokenMetrics Technology Grade Analyst",
+  goal: "Get Technology Grade insights for tokens, including activity score, security score, repository score, collaboration score, and DeFi scanner score.",
   description:
-    "You are an AI agent specialized in long-term cryptocurrency investment analysis using TokenMetrics investor grades. You evaluate technology quality, fundamental strength, team assessment, and overall investment potential for making informed long-term investment decisions.",
+    "You are an AI agent specialized in analyzing cryptocurrency technology quality using TokenMetrics Technology Grade insights. You evaluate technical aspects including development activity, security measures, code quality, collaboration patterns, and DeFi integration to assess the technological strength of crypto projects.",
   workers: [
     tokenMetricsPlugin.getWorker({
-      functions: [tokenMetricsPlugin.getInvestorGrades],
+      functions: [tokenMetricsPlugin.getTechnologyGrade],
     }),
   ],
 });
