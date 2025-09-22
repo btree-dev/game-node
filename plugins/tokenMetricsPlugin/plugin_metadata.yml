@@ -1,0 +1,19 @@
+plugin_name: "Token Metrics Virtuals Plugin"
+author: "Token Metrics Engineering Team"
+logo_url: ""
+release_date: "2025-09"
+
+short_description: "Complete Token Metrics integration plugin for Virtuals Protocol GAME framework providing AI-powered cryptocurrency analysis with comprehensive API endpoints"
+detailed_description: "A comprehensive plugin that integrates Token Metrics' AI-powered cryptocurrency analysis platform with the Virtuals Protocol GAME framework. Provides API endpoints covering token discovery, moonshot analysis, trading signals, market metrics, AI reports, technical analysis, and crypto indices. Features include real-time pricing data, AI-generated trading recommendations, sentiment analysis, and quantitative metrics for informed crypto trading decisions."
+
+plugin_logo_url: ""
+screenshots:
+  - ""
+  - ""
+demo_video_url: ""
+documentation_url: "https://developers.tokenmetrics.com/"
+changelog_url: ""
+
+x_account_handle: "@tokenmetricsinc"
+support_contact: "support@tokenmetrics.com"
+community_url: ""
