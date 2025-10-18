@@ -4,15 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "plugin": "node dist/plugins/example.js",
+    "dev": "ts-node src/index.ts",
+    "watch": "tsc --watch"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@virtuals-protocol/game": "^0.1.7",
-    "@virtuals-protocol/game-twitter-plugin": "^0.1.4",
     "@virtuals-protocol/game-twitter-node": "^0.1.0",
+    "@virtuals-protocol/game-twitter-plugin": "^0.1.4",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.8.1",
+    "ts-node": "^10.9.2"
   }
 }
