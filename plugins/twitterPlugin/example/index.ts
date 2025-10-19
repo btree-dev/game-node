@@ -1,12 +1,22 @@
 import { GameAgent, GameWorker } from "@virtuals-protocol/game";
-import TwitterPlugin, { GameTwitterClient } from "@virtuals-protocol/game-twitter-plugin";
+import TwitterPlugin from "@virtuals-protocol/game-twitter-plugin";
+import { TwitterApi } from "@virtuals-protocol/game-twitter-node";
+
 import dotenv from "dotenv";
 
 dotenv.config();
 
+if (!process.env.VIRTUALS_API_TOKEN) {
+    throw new Error('VIRTUALS_API_TOKEN is required in environment variables');
+}
+
+if (!process.env.GAME_TWITTER_ACCESS_TOKEN) {
+    throw new Error('GAME_TWITTER_ACCESS_TOKEN is required in environment variables');
+} 
+
 // Use the GameTwitterClient which implements ITweetClient (required by TwitterPlugin)
-const gameTwitterClient = new GameTwitterClient({
-  accessToken: process.env.GAME_TWITTER_ACCESS_TOKEN,
+const gameTwitterClient = new TwitterApi({
+  gameTwitterAccessToken: process.env.GAME_TWITTER_ACCESS_TOKEN,
 });
 
 // const nativeTwitterClient = new TwitterApi({
